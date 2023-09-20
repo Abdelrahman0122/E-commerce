@@ -1,6 +1,6 @@
 
 
-class APiFeatures{
+export default class APiFeatures{
 
     constructor(mongooseQuery, queryString){
         this.mongooseQuery = mongooseQuery;
@@ -11,6 +11,7 @@ class APiFeatures{
        let page = this.queryString.page*1||1
        if(this.queryString.page <=0)page = 1 
        let skip = (page-1) * 4 
+       this.page = page;
        this.mongooseQuery.skip(skip).limit(4)
        return this;
     }
@@ -35,4 +36,20 @@ class APiFeatures{
         }
         return this;
     }
+
+    search(){
+        if(this.queryString.keyword){
+            this.mongooseQuery.find({$or:[{title:{$regex:this.queryString.keyword,$options:"i"}},{description:{$regex:this.queryString.keyword,$options:"i"}}]})
+        }
+        return this; 
+    }
+
+    fields(){
+        if(this.queryString.fields){
+            let fields = this.queryString.fields.split(",").join(" ") 
+            this.mongooseQuery.select(fields)
+        }
+        return this;
+    }
+
 }

@@ -4,6 +4,7 @@ import { catchError } from "../../utils/catchError.js";
 import { AppError } from "../../utils/AppError.js";
 import { deleteOne } from "../../utils/handlers/factor.js";
 import cloudinary from "../../utils/cloudinary.js";
+import APiFeatures from "../../utils/APIFeatures.js";
 
 
 // create category
@@ -30,8 +31,9 @@ export const addCategory = catchError(async (req, res, next) => {
 
 // get all categories
 export const getAllCategories =catchError( async (req, res, next) => {
-  let categories = await categoryModel.find({});
-  res.status(201).json({ message: "Success", categories });
+  let apiFeature = new APiFeatures(categoryModel.find({}),req.query).filter().sort().fields().pagination()
+  let categories = await apiFeature.mongooseQuery.find({});
+  res.status(201).json({ message: "Success",page:apiFeature.pageb  ,categories });
 });
 
 

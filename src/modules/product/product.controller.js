@@ -3,6 +3,7 @@ import { productModel } from "../../../DB/models/product.model.js";
 import { catchError } from "../../utils/catchError.js";
 import { AppError } from "../../utils/AppError.js";
 import mongoose from "mongoose";
+import APiFeatures from "../../utils/APIFeatures.js";
 
 
 // create product
@@ -24,37 +25,9 @@ export const addproduct = catchError(async (req, res, next) => {
 
 // get all products
 export const getAllproducts =catchError( async (req, res, next) => {
-  // pagination
-  let page = req.query.page*1||1
-  if(req.query.page <=0)page = 1 
-  let skip = (page-1) * 4
-   //2- filterObj
-    let filterObj = {...req.query}
-    let excludedQuery = ["page","fields","sort","keyword"]
-    excludedQuery.forEach((q)=>{
-      delete filterObj[q]
-    });
-    
-    filterObj = JSON.stringify(filterObj)
-    filterObj = filterObj.replace(/\b(gte|gt|lt|lte)\b/g, (match) => `$${match}`);
-    filterObj = JSON.parse(filterObj)
-  
-    //3-sorting
-  //build query
-  let mongooseQuery = productModel.find(filterObj).skip(skip).limit(4)
-  
-  if(req.query.sort){
-    let sortBy = req.query.sort.split(",").join(" ") 
-     mongooseQuery.sort(sortBy)
-  }
-    //4- search
-    if(req.query.keyword){
-      mongooseQuery.find({$or:[{title:{$regex:req.query.keyword,$options:"i"}},{description:{$regex:req.query.keyword,$options:"i"}}]})
-    }
-     
-
-  let products = await productModel.find({}).skip(skip).limit(4)
-  res.status(201).json({ message: "Success",page, products});
+ let apiFeature = new APiFeatures(productModel.find({}),req.query).filter().sort().fields().pagination()
+  let products = await apiFeature.mongooseQuery;
+  res.status(201).json({ message: "Success",page: apiFeature.page, products});
 });
 
 
