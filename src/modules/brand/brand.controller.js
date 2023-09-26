@@ -12,11 +12,11 @@ export const addbrand = catchError(async (req, res, next) => {
   if (foundedName) {
     return  next(new AppError("brand already exists", 409))
   }  
-  if (!req.file) {
-    return  next(new AppError("file not exist", 409))
-  }
-
-    const brand = new brandModel({ name, slug: slugify(name) , image: req.file.path });
+  // if (!req.file) {
+  //   return  next(new AppError("file not exist", 409))
+  // }
+  // image: req.file.path
+    const brand = new brandModel({ name, slug: slugify(name) });
     await brand.save();
     res.status(201).json({ message: "brand added successfully", brand });
   

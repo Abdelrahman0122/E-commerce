@@ -13,7 +13,6 @@ const brandSchema= new Schema({
     },
  image:{
     type:String,
-    required:true,
  },
 })
 
