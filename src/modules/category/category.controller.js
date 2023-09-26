@@ -15,15 +15,16 @@ export const addCategory = catchError(async (req, res, next) => {
   if (foundedName) {
     return  next(new AppError("Category already exists", 409))
   }  
-  if (!req.file) {
-    return  next(new AppError("file not exist", 409))
-  }
-  const {secure_url, public_id} = await cloudinary.uploader.upload(req.file.path,{
-    folder: "ecommerce",
-  });
+  // if (!req.file) {
+  //   return  next(new AppError("file not exist", 409))
+  // }
+  // const {secure_url, public_id} = await cloudinary.uploader.upload(req.file.path,{
+  //   folder: "ecommerce",
+  // });
 
-    const category = new categoryModel({ name, slug: slugify(name) , image: {secure_url, public_id} });
+    const category = new categoryModel({ name, slug: slugify(name) });
     await category.save();
+    // add this later  , image: {secure_url, public_id}
     res.status(201).json({ message: "Category added successfully", category });
   
 })
@@ -54,6 +55,14 @@ export const updateCategory =catchError( async (req, res, next) => {
     res.status(200).json({ message: "Updated", category });
   }
 })
+// get category by id
+ export const getCategoryById = catchError(async (req, res, next) => {
+  let { id } = req.params;
+  let category = await categoryModel.findById(id);
+  !category && next(new AppError("Category not found", 404))
+  res.status(200).json({ message: "Success", category });
+})
+
 
 
 // delete category by id
