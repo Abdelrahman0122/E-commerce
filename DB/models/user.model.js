@@ -36,7 +36,8 @@ const userSchema = new mongoose.Schema({
     verified:{
         type:Boolean,
         default:false
-    }
+    },
+    changePasswordAt:Date,
 },{timestamps:true})
 
 userSchema.pre("save",function(){

@@ -71,6 +71,7 @@ export const getUserById = catchError(async (req, res, next) => {
 // change password
 export const ChangePassword = catchError(async (req, res, next) => {
   let { id } = req.params;
+  req.body.changePasswordAt = Date.now();
   let foundedUser = await userModel.findOneAndUpdate({ _id: id }, req.body, { new: true });
   !foundedUser && next(new AppError("User not found", 404));
   res.status(200).json({ message: "Updated", user: foundedUser });

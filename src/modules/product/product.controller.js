@@ -8,20 +8,19 @@ import APiFeatures from "../../utils/APIFeatures.js";
 
 // create product
 export const addproduct = catchError(async (req, res, next) => {
-  // let foundedName = await productModel.findOne({ title });
-  // if (foundedName) {
-  //   return  next(new AppError("product already exists", 409))
-  // }  
+  let { title } = req.body; // define the title variable
+  let foundedName = await productModel.findOne({ title });
+  if (foundedName) {
+    return next(new AppError("product already exists", 409));
+  }  
   // if (!req.file) {
-  //   return  next(new AppError("file not exist", 409))
+  //   return next(new AppError("file not exist", 409));
   // }
-  req.body.slug = slugify(req.body.title)
-    const product = new productModel(req.body);
-    await product.save();
-    res.status(201).json({ message: "product added successfully", product });
-  
-})
-
+  req.body.slug = slugify(req.body.title);
+  const product = new productModel(req.body);
+  await product.save();
+  res.status(201).json({ message: "product added successfully", product });
+});
 
 // get all products
 export const getAllproducts =catchError( async (req, res, next) => {
