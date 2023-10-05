@@ -61,8 +61,11 @@ export const deleteproduct = catchError(async (req, res, next) => {
   }
 });
 
-export const profile = catchError(async (req, res, next) => {
-
-  res.json({ message: "success", file: req.file });
-   
+// get product by id
+export const getproductById = catchError(async (req, res, next) => {
+  let { id } = req.params;
+  let product = await productModel.findById(id);
+  !product && next(new AppError("product not found", 404))
+  res.status(200).json({ message: "Success", product });
 })
+

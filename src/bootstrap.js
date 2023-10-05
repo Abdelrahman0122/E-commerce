@@ -1,4 +1,5 @@
 import { globalError } from "./middleware/globalErrorMiddleware.js";
+import { ReviewRouter } from "./modules/Review/Review.routes.js";
 import {authRouter} from "./modules/auth/auth.routes.js";
 import { brandRouter } from "./modules/brand/brand.routes.js";
 import { categoryRouter } from "./modules/category/category.routes.js";
@@ -16,6 +17,8 @@ export function bootstrap(app){
     app.use('/api/v1/products',productRouter)
     app.use('/api/v1/users',userRouter)
     app.use('/api/v1/auth',authRouter)
+    app.use('/api/v1/Review',ReviewRouter)
+
 
 
 

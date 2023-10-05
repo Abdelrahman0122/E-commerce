@@ -15,3 +15,4 @@ productRouter.get("/", product.getAllproducts);
 productRouter.route("/:id")
 .put(multerFun("/cover").single("image") ,product.updateproduct)
 .delete( product.deleteproduct)
+.get(product.getproductById)

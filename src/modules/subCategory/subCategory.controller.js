@@ -2,6 +2,7 @@ import slugify from "slugify";
 import { subCategoryModel } from "../../../DB/models/subCategory.model.js";
 import { catchError } from "../../utils/catchError.js";
 import { AppError } from "../../utils/AppError.js";
+import APiFeatures from "../../utils/APIFeatures.js";
 
 
 // create subCategory
@@ -25,8 +26,9 @@ export const addsubCategory = catchError(async (req, res, next) => {
 
 // get all categories
 export const getAllCategories =catchError( async (req, res, next) => {
-  let categories = await subCategoryModel.find({});
-  res.status(201).json({ message: "Success", categories });
+  let apiFeature = new APiFeatures(subCategoryModel.find({}),req.query).filter().sort().fields().pagination()
+  let results = await apiFeature.mongooseQuery;
+  res.status(201).json({ message: "Success",page: apiFeature.page, results});
 });
 
 

@@ -2,6 +2,7 @@ import slugify from "slugify";
 import { brandModel } from "../../../DB/models/brand.model.js";
 import { catchError } from "../../utils/catchError.js";
 import { AppError } from "../../utils/AppError.js";
+import APiFeatures from "../../utils/APIFeatures.js";
 
 
 // create brand
@@ -25,9 +26,11 @@ export const addbrand = catchError(async (req, res, next) => {
 
 // get all Brands
 export const getAllBrands =catchError( async (req, res, next) => {
-  let Brands = await brandModel.find({});
-  res.status(201).json({ message: "Success", Brands });
+  let apiFeature = new APiFeatures(brandModel.find({}),req.query).filter().sort().fields().pagination()
+  let results = await apiFeature.mongooseQuery;
+  res.status(201).json({ message: "Success",page: apiFeature.page, results});
 });
+
 
 
 // update brand by id
