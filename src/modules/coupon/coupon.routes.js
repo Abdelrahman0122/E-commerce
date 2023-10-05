@@ -6,7 +6,7 @@ export const  CouponRouter = express.Router();
 
 CouponRouter.post("/",protectRoutes,coupon.addCoupon);
 CouponRouter.get("/", coupon.getAllCoupons);
-
+CouponRouter.post("/apply",protectRoutes,coupon.applyCoupon);
 
 
 

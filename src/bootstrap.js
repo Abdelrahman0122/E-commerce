@@ -5,6 +5,7 @@ import { brandRouter } from "./modules/brand/brand.routes.js";
 import { CartRouter } from "./modules/cart/cart.routes.js";
 import { categoryRouter } from "./modules/category/category.routes.js";
 import { CouponRouter } from "./modules/coupon/coupon.routes.js";
+import { OrderRouter } from "./modules/order/order.routes.js";
 import { productRouter } from "./modules/product/product.routes.js"
 import {subCategoryRouter} from './modules/subCategory/subCategory.routes.js'
 import { userRouter } from "./modules/user/user.routes.js";
@@ -22,6 +23,7 @@ export function bootstrap(app){
     app.use('/api/v1/Review',ReviewRouter)
     app.use('/api/v1/coupon',CouponRouter)
     app.use('/api/v1/cart',CartRouter)
+    app.use('/api/v1/order',OrderRouter)
 
 
     
