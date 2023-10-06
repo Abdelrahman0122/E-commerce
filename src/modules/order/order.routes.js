@@ -6,6 +6,8 @@ export const  OrderRouter = express.Router();
 
 OrderRouter.post("/:id",protectRoutes,order.createCashOrder);
 OrderRouter.get("/",protectRoutes ,order.getOrder);
+OrderRouter.post("/checkout/:id",protectRoutes,order.onlinePayment);
+
 // OrderRouter.delete("/:id",protectRoutes,order.removeOrderItem);
 // OrderRouter.delete("/delete/:id",protectRoutes,order.deleteOrder);
 // OrderRouter.put(protectRoutes,order.UpdateOrder)
