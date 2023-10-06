@@ -10,7 +10,8 @@
   },
   "keywords": [],
   "engines": {
-    "node": "18.9.0"},
+    "node": "18.9.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
