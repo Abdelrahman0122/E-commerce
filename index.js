@@ -3,13 +3,14 @@ import { dbConnection } from './DB/Connection.js';
 import { bootstrap } from './src/bootstrap.js'; 
 import dotenv from "dotenv"
 import morgan from 'morgan';
-dotenv.config()
 import cors from 'cors'
-app.use(cors())
+
+dotenv.config()
 
 
 const app = express();
 const port = 3000
+app.use(cors())
 
 app.use(express.json());
 app.use(morgan('dev'));
